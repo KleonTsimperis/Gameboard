@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import Header from './components/Header';
 import Player from './components/Player';
-import axios from 'axios';
 import AddPlayer from './components/AddPlayer';
 import { connect } from 'react-redux';
-import modifyScore from './actions/actions';
+import { modifyScore } from './actions/actions';
+import { handleSubmitPlayer } from './actions/actions';
+import { handleInput } from './actions/actions';
+import { removePlayer } from './actions/actions';
+import PropTypes from 'prop-types';
 import './App.css';
 
-let nextId = 2;
+let nextId = 0;
 
 class App extends Component {
 
@@ -20,11 +23,6 @@ class App extends Component {
         <Header
          players={this.props.playerRedu.players}
          totalPoints={totalPoints}
-         running={this.props.running}
-         onStart={this.onStart}
-         onStop={this.onStop}
-         elapsedTime={this.props.elapsedTime}
-         onReset={this.onReset}
         />
         <div className="players">
           {this.props.playerRedu.players.map(item=>
@@ -57,34 +55,30 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     modifyScore:(value,id) => {
-      dispatch({
-        type:"MODIFY_SCORE",
-        payload:id,
-        value
-      })
+      dispatch(modifyScore(value,id))
     },
     handleInput:(input) => {
-      dispatch({
-        type:"HANDLE_INPUT",
-        payload:input
-      })
+      dispatch(handleInput(input))
     },
     handleSubmitPlayer:(event,name) => {
       nextId +=1;
       event.preventDefault();
-      dispatch({
-        type:"HANDLE_SUBMIT_PLAYER",
-        payload:{name,id:nextId}
-      })
+      dispatch(handleSubmitPlayer(event,name,nextId))
     },
     removePlayer:(id) => {
-      dispatch({
-        type:"REMOVE_PLAYER",
-        payload:id
-      })
+      dispatch(removePlayer(id))
     }
   };
 };
 
+
+App.propTypes = {
+  players: PropTypes.array,
+  playerRedu: PropTypes.object.isRequired,
+  modifyScore: PropTypes.func.isRequired,
+  removePlayer: PropTypes.func.isRequired,
+  handleInput: PropTypes.func.isRequired,
+  handleSubmitPlayer: PropTypes.func.isRequired,
+}
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);

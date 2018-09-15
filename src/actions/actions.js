@@ -1,23 +1,23 @@
-let nextId = 2;
+import * as ActionTypes from '../actiontypes/actiontypes';
 
-export function modifyScore (value,id)  {
+export const modifyScore = (value,id) => {
   return {
-    type:"MODIFY_SCORE",
+    type:ActionTypes.MODIFY_SCORE,
     payload:id,
     value
   }
 };
 
-export function handleInput (input)  {
+export const handleInput = (input) => {
   return {
-    type:"HANDLE_INPUT",
+    type:ActionTypes.HANDLE_INPUT,
     payload:input
   }
 };
 
-export function handleSubmitPlayer (event,name,value)  {
+export const handleSubmitPlayer = (event,name,value) => {
   return {
-    type:"HANDLE_SUBMIT_PLAYER",
+    type:ActionTypes.HANDLE_SUBMIT_PLAYER,
     payload:{
       name,
       id:value
@@ -25,9 +25,9 @@ export function handleSubmitPlayer (event,name,value)  {
   }
 };
 
-export function removePlayer (id)  {
+export const removePlayer = (id) => {
   return {
-    type:"REMOVE_PLAYER",
+    type:ActionTypes.REMOVE_PLAYER,
     payload:id
   }
 };
