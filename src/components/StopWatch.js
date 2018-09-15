@@ -1,19 +1,66 @@
-import React from 'react';
+import React, { Component} from 'react';
 
-const StopWatch = props => {
-  let seconds = Math.floor(props.elapsedTime / 1000);
-  return(
-    <div className="stopwatch">
-      <h2>Stopwatch</h2>
-      <div className="stopwatch-time">{seconds}</div>
-      {props.running ?
-         <button onClick={props.onStop}>Stop</button>
-         :
-         <button onClick={props.onStart}>Start</button>
-      }
-      <button onClick={props.onReset}>Reset</button>
-    </div>
-  );
+class StopWatch extends Component {
+  state = {
+    elapsedTime:0,
+    previousTime:0,
+    running:false
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(this.onTick);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  onStart = () =>
+    this.setState({
+      running: true,
+      previousTime: Date.now(),
+    });
+
+
+  onStop = () =>
+    this.setState({
+      running: false,
+    });
+
+
+  onReset = () =>
+    this.setState({
+      elapsedTime: 0,
+      previousTime: Date.now(),
+    });
+
+
+  onTick = () => {
+    if (this.state.running) {
+      let now = Date.now();
+      this.setState({
+        elapsedTime: this.state.elapsedTime + (now - this.state.previousTime),
+        previousTime: Date.now(),
+      });
+    }
+  };
+
+
+  render(){
+    let seconds = Math.floor(this.state.elapsedTime / 1000);
+    return(
+      <div className="stopwatch">
+        <h2>Stopwatch</h2>
+        <div className="stopwatch-time">{seconds}</div>
+        {this.state.running ?
+           <button onClick={this.onStop}>Stop</button>
+           :
+           <button onClick={this.onStart}>Start</button>
+        }
+        <button onClick={this.onReset}>Reset</button>
+      </div>
+    );
+  }
 };
 
 

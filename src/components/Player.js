@@ -11,8 +11,7 @@ const Player = props =>
     <div className="player-score">
       <Counter
        score={props.score}
-       incrementScore={()=>props.incrementScore(props.id)}
-       decrementScore={()=>props.decrementScore(props.id)}
+       modifyScore={(value)=>props.modifyScore(value,props.id)}
        />
     </div>
   </div>
