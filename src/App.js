@@ -48,7 +48,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    playerRedu: state.playerReducer
+    playerRedu: state
   };
 };
 
